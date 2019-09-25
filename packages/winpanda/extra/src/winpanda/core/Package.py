@@ -14,9 +14,11 @@ Pkg=Package(options['basepath'], options['pkgId'])"""
 import abc
 from core.Pkgconfig import PkgConfig
 from pathlib import Path, PurePath
-from pprint import pprint as pp
+
 import json
 import configparser
+from os import linesep
+
 
 
 class Package(object):
@@ -55,7 +57,7 @@ class Package(object):
         
         
         self.pkgConfig.pkg_info.update(packageInfo)
-        pp(self.pkgConfig.pkg_info,compact=True)
+        print("Package DEBUG:",self.pkgConfig.pkg_info,linesep)
        
 
     def readini(self, basepath, pkgId):
