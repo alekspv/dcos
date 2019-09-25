@@ -1,4 +1,3 @@
-import abc
 import configparser
 
 class PkgConfig(object):
