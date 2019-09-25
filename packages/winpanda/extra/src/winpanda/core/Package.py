@@ -14,9 +14,11 @@ Pkg=Package(options['basepath'], options['pkgId'])"""
 import abc
 from core.Pkgconfig import PkgConfig
 from pathlib import Path, PurePath
+
 import json
 import configparser
 from os import linesep
+
 
 
 class Package(object):
