@@ -32,3 +32,11 @@ DCOS_STATE_ROOT_DNAME_DFT = 'active'
 DCOS_STATE_ROOT_DPATH_DFT = DCOS_INST_ROOT_DPATH_DFT.joinpath(
     DCOS_STATE_ROOT_DNAME_DFT
 )
+
+# DC/OS distribution storage URL
+DCOS_DSTOR_URL_DFT = 'https://wintesting.s3.amazonaws.com'
+
+# DC/OS distribution storage package repository path
+DCOS_DSTOR_PKGREPO_PATH_DFT = 'testing/packages'
+
+
