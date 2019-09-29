@@ -18,6 +18,10 @@ import jinja2 as jj2
 from . import base
 from . import exceptions as svcm_exc
 import constants as const
+from core import logger
+
+
+LOG = logger.get_logger(__name__)
 
 
 class NSSMParameter(enum.Enum):
@@ -79,8 +83,9 @@ class NSSMConfSection(enum.Enum):
 class WinSvcManagerNSSM(base.WindowsServiceManager):
     """NSSM-based Windows service manager."""
     __exec_fname__ = 'nssm.exe'  # Executable file name.
-    __exec_id_pattern__ = re.compile('^NSSM.*$')  # Executable identity.
+    __exec_id_pattern__ = re.compile(r'^NSSM.*$')  # Executable identity.
     __svc_cfg_fname__ = 'package.nssm'
+    __ws__ = re.compile(r'[\s]+')
 
     def __init__(self, **svcm_opts):
         """Constructor."""
@@ -100,14 +105,16 @@ class WinSvcManagerNSSM(base.WindowsServiceManager):
             )
         )
 
-        self.install_args = None
+        self.svc_name = None
+        self.svc_exec = None
+        self.svc_pnames_bulk = None
 
         self.verify_svcm_options()
 
     def verify_svcm_options(self):
         """Verify/refine Windows service manager options."""
         self.exec_path = self._verify_executor()
-        self.install_args = self._verify_svc_conf()
+        self._verify_svc_conf()
 
     def _verify_executor(self):
         """Check service management executor tool."""
@@ -190,63 +197,97 @@ class WinSvcManagerNSSM(base.WindowsServiceManager):
         if not self.svc_conf.has_section(NSSMConfSection.SERVICE.value):
             raise svcm_exc.ServiceConfigError(
                 f'Section not found: {NSSMConfSection.SERVICE.value}'
+
             )
 
-        return self._get_install_args()
+        self.svc_pnames_bulk = self.svc_conf.options(
+            NSSMConfSection.SERVICE.value
+        )
 
-    def _get_install_args(self):
-        """"Get an ordered collection of CLI arguments to be passed to
+        if NSSMParameter.DISPLAYNAME.value in self.svc_pnames_bulk:
+            self.svc_name = self.svc_conf.get(NSSMConfSection.SERVICE.value,
+                                              NSSMParameter.DISPLAYNAME.value)
+            if NSSMParameter.NAME.value in self.svc_pnames_bulk:
+                self.svc_conf.remove_option(NSSMConfSection.SERVICE.value,
+                                            NSSMParameter.NAME.value)
+                self.svc_pnames_bulk = self.svc_conf.options(
+                    NSSMConfSection.SERVICE.value
+                )
+        elif NSSMParameter.NAME.value in self.svc_pnames_bulk:
+            self.svc_name = self.svc_conf.get(NSSMConfSection.SERVICE.value,
+                                              NSSMParameter.NAME.value)
+        else:
+            raise svcm_exc.ServiceConfigError(
+                f'Required parameter unavailable:'
+                f' {NSSMParameter.DISPLAYNAME.value}/'
+                f'{NSSMParameter.NAME.value}'
+            )
+
+        if NSSMParameter.APPLICATION.value in self.svc_pnames_bulk:
+            self.svc_exec = self.svc_conf.get(NSSMConfSection.SERVICE.value,
+                                              NSSMParameter.APPLICATION.value)
+        else:
+            raise svcm_exc.ServiceConfigError(
+                f'Required parameter unavailable:'
+                f' {NSSMParameter.APPLICATION.value}'
+            )
+
+    def _get_svc_setup_pchain(self):
+        """"Get an ordered collection of CLI parameters to be passed to the
         underlying service management utility (executor) when performing the
         'setup' command.
 
-        :return: list[str], set of CLI arguments
+        :return: list[(nssm_cmd, list[cli_param])], set of params for service
+                 setup call chain:
+
+                 install <servicename> <program>
+
+                 set <servicename> <parameter1> <value1>
+                 set <servicename> <parameter2> <value2>
+                 ...
+                 set <servicename> <parameterN> <valueN>
         """
-        install_args = []
+        setup_pchain = []
 
         pnames_valid = NSSMParameter.values()
         pnames_required = NSSMParameter.values_required()
 
-        # Required parameters.
-        for pname in pnames_required:
-            try:
-                install_args.append(
-                    self.svc_conf.get(NSSMConfSection.SERVICE.value, pname)
-                )
-            except svcm_exc.CONFPARSER_GET_ERRORS as e:
-                raise svcm_exc.ServiceConfigError(
-                    f'Required parameter unavailable: {pname}:'
-                    f' {type(e).__name__}: {e}'
-                )
-
-        # Optional parameters.
-        pnames_bulk = self.svc_conf.options(NSSMConfSection.SERVICE.value)
-        print(f'_get_install_args(): pnames_bulk: {pnames_bulk}')
+        # Parameters for nssm 'install' command.
+        cmd = NSSMCommand.INSTALL.value
+        cmd_plist = [self.svc_name, self.svc_exec]
+        setup_pchain.append((cmd, cmd_plist))
+        # Optional parameters to be set by nssm 'set' command.
         pnames_opt = [
-            pname for pname in pnames_bulk if (
+            pname for pname in self.svc_pnames_bulk if (
                 pname in pnames_valid and pname not in pnames_required
             )
         ]
-        print(f'_get_install_args(): pnames_opt: {pnames_opt}')
-
-        for pname in pnames_opt:
-            install_args.append(pname)
-            install_args.append(
-                self.svc_conf.get(NSSMConfSection.SERVICE.value, pname)
-            )
-
+        cmd = NSSMCommand.SET.value
         master_ip = self.cluster_conf.get('master_ip', '127.0.0.1')
         local_ip = self.cluster_conf.get('local_ip', '127.0.0.1')
 
-        try:
-            return [
-                jj2.Template(install_arg).render(
+        for pname in pnames_opt:
+            try:
+                pval = self.svc_conf.get(NSSMConfSection.SERVICE.value, pname)
+                if self.__ws__.search(pval):
+                    err_msg = (
+                        f'ServiceConfig: {self.svc_name}: Parameter value'
+                        f' string possibly requires quotation:'
+                        f' section[{NSSMConfSection.SERVICE.value}]'
+                        f' parameter[{pname}] value[{pval}]'
+                    )
+                    LOG.warning(err_msg)
+                pval = jj2.Template(pval).render(
                     master_ip=master_ip, local_ip=local_ip
-                ) for install_arg in install_args
-            ]
-        except jj2.exceptions.TemplateError as e:
-            raise svcm_exc.ServiceConfigError(
-                f'Variable parameters substitution: {type(e).__name__}: {e}'
-            )
+                )
+                cmd_plist = [self.svc_name, pname, pval]
+                setup_pchain.append((cmd, cmd_plist))
+            except jj2.exceptions.TemplateError as e:
+                raise svcm_exc.ServiceConfigError(
+                    f'Variable parameters substitution: {type(e).__name__}: {e}'
+                )
+
+        return setup_pchain
 
     def _subproc_run(self, cl_elements):
         """Run external command."""
@@ -274,51 +315,47 @@ class WinSvcManagerNSSM(base.WindowsServiceManager):
     def setup(self):
         """Setup (register) configuration for a Windows service.
         """
-        cl_elements = [f'{self.exec_path}', NSSMCommand.INSTALL.value]
+        svc_setup_pchain = self._get_svc_setup_pchain()
 
-        if len(self.install_args) < 2:
-            raise svcm_exc.ServiceManagerCommandError(
-                f'Insufficient arguments: {cl_elements}'
+        for call_params in svc_setup_pchain:
+            cl_elements = [f'{self.exec_path}', call_params[0]]
+            required_pcount = (
+                2 if call_params[0] == NSSMCommand.INSTALL.value else 3
             )
 
-        cl_elements.extend(self.install_args)
+            if len(call_params[1]) < required_pcount:
+                raise svcm_exc.ServiceManagerCommandError(
+                    f'Insufficient arguments: '
+                    f'{cl_elements.extend(call_params[1])}'
+                )
 
-        subproc_run = self._subproc_run(cl_elements=cl_elements)
+            cl_elements.extend(call_params[1])
+            subproc_run = self._subproc_run(cl_elements=cl_elements)
 
-        if subproc_run.returncode != 0:
-            raise svcm_exc.ServiceManagerCommandError(
-                f'{cl_elements}: Exit code {subproc_run.returncode}:'
-                f' {subproc_run.stderr}'
-            )
+            if subproc_run.returncode != 0:
+                raise svcm_exc.ServiceManagerCommandError(
+                    f'{cl_elements}: Exit code {subproc_run.returncode}:'
+                    f' {subproc_run.stderr}'
+                )
+        # TODO: Add a cleanup procedure for the case of unsuccessful service
+        #       setup operation.
 
     def remove(self):
         """Remove configuration for a Windows service."""
-
-        cl_elements = [f'{self.exec_path}', NSSMCommand.REMOVE.value]
-
-        try:
-            cl_elements.extend([self.install_args[0], 'confirm'])
-        except IndexError:
-            raise svcm_exc.ServiceManagerCommandError(
-                f'Insufficient arguments: {cl_elements}'
-            )
+        cl_elements = [
+            f'{self.exec_path}', NSSMCommand.REMOVE.value,
+            self.svc_name, 'confirm'
+        ]
 
         self._subproc_run(cl_elements=cl_elements)
 
     def enable(self):
         """Turn service's  auto-start flag on (start service at OS bootstrap).
         """
-        cl_elements = [f'{self.exec_path}', NSSMCommand.SET.value]
-
-        try:
-            cl_elements.extend([
-                self.install_args[0], NSSMParameter.START.value,
-                'SERVICE_AUTO_START'
-            ])
-        except IndexError:
-            raise svcm_exc.ServiceManagerCommandError(
-                f'Insufficient arguments: {cl_elements}'
-            )
+        cl_elements = [
+            f'{self.exec_path}', NSSMCommand.SET.value,
+            self.svc_name, NSSMParameter.START.value, 'SERVICE_AUTO_START'
+        ]
 
         self._subproc_run(cl_elements=cl_elements)
 
@@ -326,17 +363,10 @@ class WinSvcManagerNSSM(base.WindowsServiceManager):
         """Turn service's  auto-start flag off (do not start service at OS
         bootstrap).
         """
-        cl_elements = [f'{self.exec_path}', NSSMCommand.SET.value]
-
-        try:
-            cl_elements.extend([
-                self.install_args[0], NSSMParameter.START.value,
-                'SERVICE_DEMAND_START'
-            ])
-        except IndexError:
-            raise svcm_exc.ServiceManagerCommandError(
-                f'Insufficient arguments: {cl_elements}'
-            )
+        cl_elements = [
+            f'{self.exec_path}', NSSMCommand.SET.value,
+            self.svc_name, NSSMParameter.START.value, 'SERVICE_DEMAND_START'
+        ]
 
         self._subproc_run(cl_elements=cl_elements)
 
@@ -346,14 +376,7 @@ class WinSvcManagerNSSM(base.WindowsServiceManager):
             f'Non primitive command: {command_name}'
         )
 
-        cl_elements = [f'{self.exec_path}', command_name]
-
-        try:
-            cl_elements.append(self.install_args[0])
-        except IndexError:
-            raise svcm_exc.ServiceManagerCommandError(
-                f'Insufficient arguments: {cl_elements}'
-            )
+        cl_elements = [f'{self.exec_path}', command_name, self.svc_name]
 
         subproc_run = self._subproc_run(cl_elements=cl_elements)
 

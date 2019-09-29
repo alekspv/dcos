@@ -138,8 +138,6 @@ class SetupCmdConfig(CommandConfig):
             'tar.xz'
         ])
 
-        print(f'get_pkg_url(): pkg_url: {pkg_url}')
-
         return pkg_url
 
     def create_pkg_repo(self):
@@ -148,6 +146,7 @@ class SetupCmdConfig(CommandConfig):
 
         for pkg in self.active_packages:
             try:
+                # Fetch and unpack a package
                 utl.download(self.get_pkg_url(pkg=pkg),
                              self.cmd_opts.get('inst_state_path'))
                 utl.unpack(
@@ -162,9 +161,9 @@ class SetupCmdConfig(CommandConfig):
                                                       self.cluster_conf)
 
                 # Workaround for dcos-diagnostics to be able to start
-                # dst_dpath = self.cmd_opts.get('inst_pkgrepo_path')
                 dst_dpath = self.cmd_opts.get('inst_root_path')
                 if pkg.get('name') == 'dcos-diagnostics':
+                    # Move binary and config-files to DC/OD installation root.
                     src_dpath = os.path.join(
                         self.cmd_opts.get('inst_pkgrepo_path'),
                         pkg.get('id'), 'bin'
@@ -175,8 +174,10 @@ class SetupCmdConfig(CommandConfig):
                     for src_fname in pkg_bin_files:
                         shutil.copy(os.path.join(pkg_bin_dpath, src_fname),
                                     dst_dpath)
+                    # Create a folder for logs
+                    log_dpath = os.path.join(dst_dpath, 'mesos-logs')
+                    os.mkdir(log_dpath)
             except Exception as e:
                 raise exc.SetupCommandError(f'{type(e).__name__}: {e}')
 
         return pkg_managers
-
