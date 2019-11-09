@@ -327,6 +327,8 @@ class UrlSrcFetcher(SourceFetcher):
                     corrupt_filename, self.sha, file_sha, self.url))
 
         if self.extract:
+            print("MYDBG[::]{}".format(self.cache_filename))
+            print("MYDBG[::]{}".format(directory))
             extract_archive(self.cache_filename, directory)
         else:
             # Copy the file(s) into src/
