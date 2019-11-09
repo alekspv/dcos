@@ -264,6 +264,8 @@ def _strip_first_path_component(path):
 
 
 def extract_archive(archive, dst_dir):
+    print("MYDEBUG[:archive:] {}".format(archive))
+    print("MYDEBUG[:dst_dir:] {}".format(dst_dir))
     archive_type = _identify_archive_type(archive)
 
     if archive_type == 'tar':
@@ -327,8 +329,6 @@ class UrlSrcFetcher(SourceFetcher):
                     corrupt_filename, self.sha, file_sha, self.url))
 
         if self.extract:
-            print("MYDBG[::]{}".format(self.cache_filename))
-            print("MYDBG[::]{}".format(directory))
             extract_archive(self.cache_filename, directory)
         else:
             # Copy the file(s) into src/
