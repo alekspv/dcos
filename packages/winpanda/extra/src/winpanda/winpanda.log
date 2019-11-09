@@ -1,0 +1,795 @@
+2019-11-08 10:16:14,413 MainProcess (11828): MainThread (18552): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:16:14,413 MainProcess (11828): MainThread (18552): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:16:14,413 MainProcess (11828): MainThread (18552): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:16:14,415 MainProcess (11828): MainThread (18552): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:16:14,416 MainProcess (11828): MainThread (18552): common.storage: DEBUG: InstallationStorage: Construction: Create directory: c:\dcos\state
+2019-11-08 10:16:14,416 MainProcess (11828): MainThread (18552): common.storage: DEBUG: InstallationStorage: Construction: Create directory: c:\dcos\state\pkgactive
+2019-11-08 10:16:14,417 MainProcess (11828): MainThread (18552): common.storage: DEBUG: InstallationStorage: Construction: Create directory: c:\dcos\var\tmp
+2019-11-08 10:16:14,417 MainProcess (11828): MainThread (18552): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:16:14,424 MainProcess (11828): MainThread (18552): __main__: CRITICAL: 
+Traceback (most recent call last):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 220, in get_ref_pkg_list
+    cm_utl.download(rpl_url, str(self.inst_storage.tmp_dpath))
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\common\utils.py", line 38, in download
+    dl = SmartDL(url, _location)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\pySmartDL.py", line 133, in __init__
+    if not utils.is_HTTPRange_supported(self.url, timeout=self.timeout):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 99, in is_HTTPRange_supported
+    fullsize = get_filesize(url)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 123, in get_filesize
+    urlObj = urllib.request.urlopen(url, timeout=timeout)
+  File "c:\python36\Lib\urllib\request.py", line 223, in urlopen
+    return opener.open(url, data, timeout)
+  File "c:\python36\Lib\urllib\request.py", line 511, in open
+    req = Request(fullurl, data)
+  File "c:\python36\Lib\urllib\request.py", line 329, in __init__
+    self.full_url = url
+  File "c:\python36\Lib\urllib\request.py", line 355, in full_url
+    self._parse()
+  File "c:\python36\Lib\urllib\request.py", line 384, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: ''
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File ".\bin\winpanda.py", line 116, in main
+    DCOSInstallationManager().command_.execute()
+  File ".\bin\winpanda.py", line 31, in __init__
+    self.command_ = self._get_command()
+  File ".\bin\winpanda.py", line 102, in _get_command
+    return command.create(**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 32, in create
+    return CMD_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 85, in __init__
+    self.config = cmdconf.create(**self.cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 35, in create
+    return CMDCONF_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 93, in __init__
+    self.ref_pkg_list = self.get_ref_pkg_list()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 224, in get_ref_pkg_list
+    ) from e
+core.exceptions.RCDownloadError: Reference package list: : ValueError: unknown url type: ''
+
+2019-11-08 10:18:02,971 MainProcess (13796): MainThread (18844): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:18:02,971 MainProcess (13796): MainThread (18844): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:18:02,972 MainProcess (13796): MainThread (18844): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:18:02,973 MainProcess (13796): MainThread (18844): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:18:02,977 MainProcess (13796): MainThread (18844): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:18:02,988 MainProcess (13796): MainThread (18844): __main__: CRITICAL: 
+Traceback (most recent call last):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 220, in get_ref_pkg_list
+    cm_utl.download(rpl_url, str(self.inst_storage.tmp_dpath))
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\common\utils.py", line 38, in download
+    dl = SmartDL(url, _location)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\pySmartDL.py", line 133, in __init__
+    if not utils.is_HTTPRange_supported(self.url, timeout=self.timeout):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 99, in is_HTTPRange_supported
+    fullsize = get_filesize(url)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 123, in get_filesize
+    urlObj = urllib.request.urlopen(url, timeout=timeout)
+  File "c:\python36\Lib\urllib\request.py", line 223, in urlopen
+    return opener.open(url, data, timeout)
+  File "c:\python36\Lib\urllib\request.py", line 511, in open
+    req = Request(fullurl, data)
+  File "c:\python36\Lib\urllib\request.py", line 329, in __init__
+    self.full_url = url
+  File "c:\python36\Lib\urllib\request.py", line 355, in full_url
+    self._parse()
+  File "c:\python36\Lib\urllib\request.py", line 384, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: ''
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 116, in main
+    DCOSInstallationManager().command_.execute()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 31, in __init__
+    self.command_ = self._get_command()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 102, in _get_command
+    return command.create(**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 32, in create
+    return CMD_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 85, in __init__
+    self.config = cmdconf.create(**self.cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 35, in create
+    return CMDCONF_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 93, in __init__
+    self.ref_pkg_list = self.get_ref_pkg_list()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 224, in get_ref_pkg_list
+    ) from e
+core.exceptions.RCDownloadError: Reference package list: : ValueError: unknown url type: ''
+
+2019-11-08 10:19:41,947 MainProcess (18912): MainThread (18832): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:19:41,949 MainProcess (18912): MainThread (18832): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:19:41,951 MainProcess (18912): MainThread (18832): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:19:41,951 MainProcess (18912): MainThread (18832): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:19:41,959 MainProcess (18912): MainThread (18832): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:20:10,790 MainProcess (18912): MainThread (18832): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:20:10,790 MainProcess (18912): MainThread (18832): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:20:10,790 MainProcess (18912): MainThread (18832): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:20:10,790 MainProcess (18912): MainThread (18832): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:20:10,793 MainProcess (18912): MainThread (18832): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:20:10,843 MainProcess (18912): MainThread (18832): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:20:10,843 MainProcess (18912): MainThread (18832): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:20:10,843 MainProcess (18912): MainThread (18832): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:20:10,844 MainProcess (18912): MainThread (18832): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:20:10,847 MainProcess (18912): MainThread (18832): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:21:02,167 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:21:02,167 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:21:02,167 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:21:02,168 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:21:02,171 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:21:03,869 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:21:03,870 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:21:03,871 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:21:03,871 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:21:03,874 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:21:06,761 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:21:06,761 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:21:06,762 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:21:06,762 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:21:06,764 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:21:17,531 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:21:17,852 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:21:17,852 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:21:17,853 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:21:17,853 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:21:17,855 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:21:18,764 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:21:18,766 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:21:18,767 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:21:18,772 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:21:19,072 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:21:19,072 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:21:19,072 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:21:19,074 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:21:19,076 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:21:50,223 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:21:50,223 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:21:50,224 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:21:50,224 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:21:50,228 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:21:56,803 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:21:56,803 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:21:56,803 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:21:56,803 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:21:56,804 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:22:00,466 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:22:00,466 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:22:00,466 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:22:00,466 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:22:00,468 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:22:02,721 MainProcess (18256): MainThread (12984): __main__: CRITICAL: 
+Traceback (most recent call last):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 220, in get_ref_pkg_list
+    cm_utl.download(rpl_url, str(self.inst_storage.tmp_dpath))
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\common\utils.py", line 38, in download
+    dl = SmartDL(url, _location)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\pySmartDL.py", line 133, in __init__
+    if not utils.is_HTTPRange_supported(self.url, timeout=self.timeout):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 99, in is_HTTPRange_supported
+    fullsize = get_filesize(url)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 123, in get_filesize
+    urlObj = urllib.request.urlopen(url, timeout=timeout)
+  File "c:\python36\Lib\urllib\request.py", line 223, in urlopen
+    return opener.open(url, data, timeout)
+  File "c:\python36\Lib\urllib\request.py", line 511, in open
+    req = Request(fullurl, data)
+  File "c:\python36\Lib\urllib\request.py", line 329, in __init__
+    self.full_url = url
+  File "c:\python36\Lib\urllib\request.py", line 355, in full_url
+    self._parse()
+  File "c:\python36\Lib\urllib\request.py", line 384, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: ''
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 116, in main
+    DCOSInstallationManager().command_.execute()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 31, in __init__
+    self.command_ = self._get_command()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 102, in _get_command
+    return command.create(**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 32, in create
+    return CMD_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 85, in __init__
+    self.config = cmdconf.create(**self.cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 35, in create
+    return CMDCONF_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 93, in __init__
+    self.ref_pkg_list = self.get_ref_pkg_list()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 224, in get_ref_pkg_list
+    ) from e
+core.exceptions.RCDownloadError: Reference package list: : ValueError: unknown url type: ''
+
+2019-11-08 10:22:02,802 MainProcess (18256): MainThread (12984): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcos',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:22:02,803 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:22:02,803 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcos'), inst_cfg=WindowsPath('c:/dcos/conf'), inst_pkgrepo=WindowsPath('c:/dcos/packages'), inst_state=WindowsPath('c:/dcos/state'), pkgactive=WindowsPath('c:/dcos/state/pkgactive'), inst_var=WindowsPath('c:/dcos/var'), inst_work=WindowsPath('c:/dcos/var/opt'), inst_run=WindowsPath('c:/dcos/var/run'), inst_log=WindowsPath('c:/dcos/var/log'), inst_tmp=WindowsPath('c:/dcos/var/tmp'))
+2019-11-08 10:22:02,803 MainProcess (18256): MainThread (12984): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:22:02,805 MainProcess (18256): MainThread (12984): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:32:11,447 MainProcess (15524): MainThread (18952): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:32:11,447 MainProcess (15524): MainThread (18952): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:32:11,448 MainProcess (15524): MainThread (18952): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:32:11,448 MainProcess (15524): MainThread (18952): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:32:11,449 MainProcess (15524): MainThread (18952): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:32:12,331 MainProcess (15524): MainThread (18952): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:32:12,334 MainProcess (15524): MainThread (18952): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:32:12,335 MainProcess (15524): MainThread (18952): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:32:12,335 MainProcess (15524): MainThread (18952): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:32:12,339 MainProcess (15524): MainThread (18952): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:32:12,344 MainProcess (15524): MainThread (18952): __main__: CRITICAL: 
+Traceback (most recent call last):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 220, in get_ref_pkg_list
+    cm_utl.download(rpl_url, str(self.inst_storage.tmp_dpath))
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\common\utils.py", line 38, in download
+    dl = SmartDL(url, _location)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\pySmartDL.py", line 133, in __init__
+    if not utils.is_HTTPRange_supported(self.url, timeout=self.timeout):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 99, in is_HTTPRange_supported
+    fullsize = get_filesize(url)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 123, in get_filesize
+    urlObj = urllib.request.urlopen(url, timeout=timeout)
+  File "c:\python36\Lib\urllib\request.py", line 223, in urlopen
+    return opener.open(url, data, timeout)
+  File "c:\python36\Lib\urllib\request.py", line 511, in open
+    req = Request(fullurl, data)
+  File "c:\python36\Lib\urllib\request.py", line 329, in __init__
+    self.full_url = url
+  File "c:\python36\Lib\urllib\request.py", line 355, in full_url
+    self._parse()
+  File "c:\python36\Lib\urllib\request.py", line 384, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: ''
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 116, in main
+    DCOSInstallationManager().command_.execute()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 31, in __init__
+    self.command_ = self._get_command()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 102, in _get_command
+    return command.create(**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 32, in create
+    return CMD_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 85, in __init__
+    self.config = cmdconf.create(**self.cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 35, in create
+    return CMDCONF_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 93, in __init__
+    self.ref_pkg_list = self.get_ref_pkg_list()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 224, in get_ref_pkg_list
+    ) from e
+core.exceptions.RCDownloadError: Reference package list: : ValueError: unknown url type: ''
+
+2019-11-08 10:32:12,505 MainProcess (15524): MainThread (18952): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:32:12,506 MainProcess (15524): MainThread (18952): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:32:12,506 MainProcess (15524): MainThread (18952): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:32:12,508 MainProcess (15524): MainThread (18952): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:32:12,511 MainProcess (15524): MainThread (18952): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:40:55,273 MainProcess (11532): MainThread (18824): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:40:55,273 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:40:55,274 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:40:55,274 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:40:55,276 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:41:00,232 MainProcess (11532): MainThread (18824): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:41:00,233 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:41:00,233 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:41:00,234 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:41:00,237 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:41:12,007 MainProcess (11532): MainThread (18824): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:41:12,007 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:41:12,007 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:41:12,007 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:41:12,009 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:41:19,335 MainProcess (11532): MainThread (18824): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:41:19,335 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:41:19,335 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:41:19,335 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:41:19,338 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:41:32,666 MainProcess (11532): MainThread (18824): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:41:32,667 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:41:32,667 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:41:32,667 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:41:32,670 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:41:33,776 MainProcess (11532): MainThread (18824): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:41:33,776 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:41:33,776 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:41:33,776 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:41:33,778 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:41:39,705 MainProcess (11532): MainThread (18824): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:41:39,705 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:41:39,705 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:41:39,706 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:41:39,709 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:41:41,511 MainProcess (11532): MainThread (18824): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:41:46,230 MainProcess (11532): MainThread (18824): __main__: DEBUG: cli_args: {'--clean': False,
+ '--cluster-cfgfile': 'cluster.conf',
+ '--dstor-pkglist': '',
+ '--dstor-pkgrepo': '',
+ '--dstor-url': '',
+ '--inst-config-dir': 'conf',
+ '--inst-repo-dir': 'packages',
+ '--inst-root-dir': 'dcosv2',
+ '--inst-state-dir': 'state',
+ '--inst-var-data-dir': 'var',
+ '--local-priv-ipaddr': '',
+ '--master-priv-ipaddr': '',
+ '--target': 'pkgall',
+ 'setup': True,
+ 'start': False,
+ 'stop': False,
+ 'teardown': False}
+2019-11-08 10:41:46,232 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:41:46,232 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:41:46,232 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:41:46,233 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:45:03,311 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: drive_: c:
+2019-11-08 10:45:03,314 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: inst_storage: istor_nodes: IStorNodes(inst_drive=WindowsPath('c:/'), inst_root=WindowsPath('c:/dcosv2'), inst_cfg=WindowsPath('c:/dcosv2/conf'), inst_pkgrepo=WindowsPath('c:/dcosv2/packages'), inst_state=WindowsPath('c:/dcosv2/state'), pkgactive=WindowsPath('c:/dcosv2/state/pkgactive'), inst_var=WindowsPath('c:/dcosv2/var'), inst_work=WindowsPath('c:/dcosv2/var/opt'), inst_run=WindowsPath('c:/dcosv2/var/run'), inst_log=WindowsPath('c:/dcosv2/var/log'), inst_tmp=WindowsPath('c:/dcosv2/var/tmp'))
+2019-11-08 10:45:03,314 MainProcess (11532): MainThread (18824): common.storage: DEBUG: InstallationStorage: Construction: Clean ready: False
+2019-11-08 10:45:03,317 MainProcess (11532): MainThread (18824): core.cmdconf: DEBUG: CmdConfigSetup: cluster_conf: {'DEFAULT': {}, 'main': {'masternode': '172.16.6.21', 'distributionstorageurl': 'https://wintesting.s3.amazonaws.com/testing/', 'localprivateipaddr': '172.16.18.84', 'zookeeperlistenerport': '2181'}, 'distribution-storage': {}, 'local': {}}
+2019-11-08 10:45:45,515 MainProcess (11532): MainThread (18824): __main__: CRITICAL: 
+Traceback (most recent call last):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 220, in get_ref_pkg_list
+    cm_utl.download(rpl_url, str(self.inst_storage.tmp_dpath))
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\common\utils.py", line 38, in download
+    dl = SmartDL(url, _location)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\pySmartDL.py", line 133, in __init__
+    if not utils.is_HTTPRange_supported(self.url, timeout=self.timeout):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 99, in is_HTTPRange_supported
+    fullsize = get_filesize(url)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\dev_winpanda_venv\lib\site-packages\pySmartDL\utils.py", line 123, in get_filesize
+    urlObj = urllib.request.urlopen(url, timeout=timeout)
+  File "c:\python36\Lib\urllib\request.py", line 223, in urlopen
+    return opener.open(url, data, timeout)
+  File "c:\python36\Lib\urllib\request.py", line 511, in open
+    req = Request(fullurl, data)
+  File "c:\python36\Lib\urllib\request.py", line 329, in __init__
+    self.full_url = url
+  File "c:\python36\Lib\urllib\request.py", line 355, in full_url
+    self._parse()
+  File "c:\python36\Lib\urllib\request.py", line 384, in _parse
+    raise ValueError("unknown url type: %r" % self.full_url)
+ValueError: unknown url type: ''
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 116, in main
+    DCOSInstallationManager().command_.execute()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 31, in __init__
+    self.command_ = self._get_command()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\bin\winpanda.py", line 102, in _get_command
+    return command.create(**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 32, in create
+    return CMD_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\command.py", line 85, in __init__
+    self.config = cmdconf.create(**self.cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 35, in create
+    return CMDCONF_TYPES[command_name](**cmd_opts)
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 93, in __init__
+    self.ref_pkg_list = self.get_ref_pkg_list()
+  File "C:\SRC\dcos_borysov\packages\winpanda\extra\src\winpanda\core\cmdconf.py", line 224, in get_ref_pkg_list
+    ) from e
+core.exceptions.RCDownloadError: Reference package list: : ValueError: unknown url type: ''
+
