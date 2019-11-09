@@ -23,6 +23,7 @@ Copy-Item -Path "$artifact_storage\package_lists\$latest" "$artifact_storage\pac
 # Copying dcos_install.ps1 to cache location for further packing:
 mkdir -f "$($artifact_storage)\prerequisites";
 Copy-Item -Path "$($gen_powershell_dir)\dcos_install.ps1" "$artifact_storage\prerequisites\dcos_install.ps1" -Force -ErrorAction SilentlyContinue;
+Copy-Item -Path "$($gen_powershell_dir)\prerequisites.zip" "$artifact_storage\prerequisites\prerequisites.zip" -Force -ErrorAction SilentlyContinue;
 
 # Pack content of package_lists, packages from artifact_storage dir into windows.release.tar:
 echo "bsdtar: $bsdtar";
