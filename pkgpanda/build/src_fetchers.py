@@ -264,9 +264,6 @@ def _strip_first_path_component(path):
 
 
 def extract_archive(archive, dst_dir):
-    print("MYDEBUG[:archive:] {}".format(archive))
-    print("MYDEBUG[:dst_dir:] {}".format(dst_dir))
-
     archive_type = _identify_archive_type(archive)
 
     if archive_type == 'tar':
