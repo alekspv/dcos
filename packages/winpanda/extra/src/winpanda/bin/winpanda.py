@@ -112,19 +112,21 @@ def main():
         file_size=cm_const.APP_LOG_FSIZE_MAX,
         history_size=cm_const.APP_LOG_HSIZE_MAX
     )
-    try:
-        DCOSInstallationManager().command_.execute()
-    except Exception as e:
-        if log_level == LOG_LEVEL.DEBUG:
-            LOG.critical(f'\n{"".join(traceback.format_exc())}')
-            traceback.print_exc()
-        else:
-            LOG.critical(f'{type(e).__name__}: {e}')
-            print(f'{type(e).__name__}: {e}', file=sys.stderr)
+    
+    DCOSInstallationManager().command_.execute()
+    # try:
+    #     DCOSInstallationManager().command_.execute()
+    # except Exception as e:
+    #     if log_level == LOG_LEVEL.DEBUG:
+    #         LOG.critical(f'\n{"".join(traceback.format_exc())}')
+    #         traceback.print_exc()
+    #     else:
+    #         LOG.critical(f'{type(e).__name__}: {e}')
+    #         print(f'{type(e).__name__}: {e}', file=sys.stderr)
 
-        sys.exit(1)
-    else:
-        sys.exit(0)
+    #     sys.exit(1)
+    # else:
+    #     sys.exit(0)
 
 
 if __name__ == '__main__':
