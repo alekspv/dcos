@@ -3,6 +3,8 @@ param (
    [Parameter(Mandatory=$false)][string]$variant = ""
 )
 
+$ErrorActionPreference = "Stop";
+
 if ( $variant -eq "ee" ) {
     $artifact_out = "dcos_generate_config_win.$($variant).sh"
     $gen_powershell_dir = ".\ext\upstream\gen\build_deploy\powershell"
@@ -21,9 +23,14 @@ $latest = Get-ChildItem -Path "$artifact_storage\package_lists" | Sort-Object La
 Copy-Item -Path "$artifact_storage\package_lists\$latest" "$artifact_storage\package_lists\$package_list" -Force -ErrorAction SilentlyContinue;
 
 # Copying dcos_install.ps1 to cache location for further packing:
-mkdir -f "$($artifact_storage)\prerequisites";
+mkdir -f "$($artifact_storage)\prerequisites\zip";
 Copy-Item -Path "$($gen_powershell_dir)\dcos_install.ps1" "$artifact_storage\prerequisites\dcos_install.ps1" -Force -ErrorAction SilentlyContinue;
-Copy-Item -Path "$($gen_powershell_dir)\prerequisites.zip" "$artifact_storage\prerequisites\prerequisites.zip" -Force -ErrorAction SilentlyContinue;
+
+# Creating prerequisites.zip by packing chocolatey nupkg(s) and install_choco.ps1:
+Copy-Item -Path "$($gen_powershell_dir)\install_choco.ps1" "$artifact_storage\prerequisites\zip\install_choco.ps1" -Force -ErrorAction SilentlyContinue;
+Copy-Item -Recurse -Path "$($gen_powershell_dir)\prerequisites\*" "$artifact_storage\prerequisites\zip" -Force -ErrorAction SilentlyContinue;
+Compress-Archive -Path "$artifact_storage\prerequisites\zip\*" -destinationpath "$artifact_storage\prerequisites\prerequisites.zip" -Force;
+Remove-Item -Recurse -Path "$artifact_storage\prerequisites\zip" -Force;
 
 # Pack content of package_lists, packages from artifact_storage dir into windows.release.tar:
 echo "bsdtar: $bsdtar";
