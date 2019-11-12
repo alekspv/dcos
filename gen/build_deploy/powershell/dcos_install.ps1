@@ -8,7 +8,7 @@
   - Create needed DC/OS directories on Windows machine
   - Download prerequisites.zip achive from provided $url to C:\dcos
   - Extract the archive
-  - Install the pre-requisites using choco: 7-zip
+  - Install the pre-requisites: 7-zip
   - Unpack from DC/OS Windows Installer : Python, Winpanda
   - Create ScheduledTask to execute RunOnce.ps1
   - Create RunOnce.ps1 which will contain executor for Winpanda and clean the parent ScheduledTask
@@ -133,7 +133,7 @@ function SetupDirectories() {
     $dirs = @(
         "$($basedir)",
         "$($basedir)\bootstrap",
-        "$($basedir)\bootstrap\chocolatey_offline",
+        "$($basedir)\bootstrap\prerequisites",
         "$($basedir)\conf"
     )
     # setup
@@ -215,13 +215,10 @@ function main($url, $version, $masters) {
     Write-Log("Downloading/Extracting prerequisites.zip out of Bootstrap agent ...")
     Download "$url/$version/genconf_win/serve/prerequisites/prerequisites.zip" "prerequisites.zip"
     $zipfile = "$($basedir)\bootstrap\prerequisites.zip"
-    ExtractBootstrapZip $zipfile "$($basedir)\bootstrap\chocolatey_offline"
+    ExtractBootstrapZip $zipfile "$($basedir)\bootstrap\prerequisites"
 
-    Write-Log("Installing Chocolatey package manager from prerequisites.zip")
-    & "$($basedir)\bootstrap\chocolatey_offline\install_choco.ps1" 2>&1 | Out-File C:\dcos\var\log\dcos_install.log -Append
-
-    Write-Log("Installing 7zip via Chocolatey offline package ...")
-    & cmd.exe "/C chocolatey install 7zip.install 7zip -s $($basedir)\bootstrap\chocolatey_offline --yes" 2>&1 | Out-File C:\dcos\var\log\dcos_install.log -Append
+    Write-Log("Installing 7zip from prerequisites.zip ...")
+    & cmd /c "start /wait $($basedir)\bootstrap\prerequisites\7z-x64.exe /S" 2>&1 | Out-File C:\dcos\var\log\dcos_install.log -Append
 
 	Write-Log("Checking proper versions from latest.package_list.json ...")
 	Download "$url/$version/genconf_win/serve/package_lists/latest.package_list.json" "latest.package_list.json"

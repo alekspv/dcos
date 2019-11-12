@@ -22,13 +22,17 @@ Remove-Item -path "$artifact_storage\$package_list" -Force -ErrorAction Silently
 $latest = Get-ChildItem -Path "$artifact_storage\package_lists" | Sort-Object LastAccessTime -Descending | Select-Object -First 1;
 Copy-Item -Path "$artifact_storage\package_lists\$latest" "$artifact_storage\package_lists\$package_list" -Force -ErrorAction SilentlyContinue;
 
-# Copying dcos_install.ps1 to cache location for further packing:
+# Downloading 7zip to zip subdir at cache location for further packing:
 mkdir -f "$($artifact_storage)\prerequisites\zip";
+# latest version : 19.00, you may modify here:
+$source = "http://www.7-zip.org/a/7z1900-x64.exe";
+$destination = "$($artifact_storage)\prerequisites\zip\7z-x64.exe";
+Invoke-WebRequest $source -OutFile $destination
+
+# Copying dcos_install.ps1 to cache location for further packing:
 Copy-Item -Path "$($gen_powershell_dir)\dcos_install.ps1" "$artifact_storage\prerequisites\dcos_install.ps1" -Force -ErrorAction SilentlyContinue;
 
-# Creating prerequisites.zip by packing chocolatey nupkg(s) and install_choco.ps1:
-Copy-Item -Path "$($gen_powershell_dir)\install_choco.ps1" "$artifact_storage\prerequisites\zip\install_choco.ps1" -Force -ErrorAction SilentlyContinue;
-Copy-Item -Recurse -Path "$($gen_powershell_dir)\prerequisites\*" "$artifact_storage\prerequisites\zip" -Force -ErrorAction SilentlyContinue;
+# Creating prerequisites.zip:
 Compress-Archive -Path "$artifact_storage\prerequisites\zip\*" -destinationpath "$artifact_storage\prerequisites\prerequisites.zip" -Force;
 Remove-Item -Recurse -Path "$artifact_storage\prerequisites\zip" -Force;
 
