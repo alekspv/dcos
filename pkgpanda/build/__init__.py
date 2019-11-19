@@ -1122,7 +1122,7 @@ def _build(package_store, name, variant, clean_after_build, recursive):
             package_store.get_package_cache_folder(name): PKG_DIR + "/:rw",
         }
         if is_windows:
-            cmd.container = "microsoft/windowsservercore:1709"
+            cmd.container = "mcr.microsoft.com/windows/servercore:ltsc2019"
             filename = PKG_DIR + "\\src"
             cmd.run("package-cleaner",
                     ["cmd.exe", "/c", "if", "exist", filename, "rmdir", "/s", "/q", filename])

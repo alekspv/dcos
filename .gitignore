@@ -28,3 +28,5 @@ packages/dcos-provider-*
 package_lists
 .vscode
 .python-version
+*venv
+dcos-release.config.yaml
