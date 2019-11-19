@@ -108,16 +108,16 @@ if ( $LASTEXITCODE -ne 0 ) {
 # Build tar ball for windows. 2 params: packages location and DC/OS variant:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "& .\build_genconf_windows.ps1 '$local_artifacts_dir\testing'"
 
-# Import AWS modules on Azure TeamCity runner
-Install-Module -Name AWS.Tools.Common -Force;
-Install-Module -Name AWS.Tools.S3 -Force;
+# # Import AWS modules on Azure TeamCity runner
+# Install-Module -Name AWS.Tools.Common -Force;
+# Install-Module -Name AWS.Tools.S3 -Force;
 
-# Set and Read AWS Credentials:
-Set-AWSCredential -AccessKey $env:AWS_ACCESS_KEY_ID -SecretKey $env:AWS_SECRET_ACCESS_KEY -StoreAs aws_s3_windows;
-Set-AWSCredential -ProfileName aws_s3_windows;
-Set-DefaultAWSRegion -Region us-west-2;
+# # Set and Read AWS Credentials:
+# Set-AWSCredential -AccessKey $env:AWS_ACCESS_KEY_ID -SecretKey $env:AWS_SECRET_ACCESS_KEY -StoreAs aws_s3_windows;
+# Set-AWSCredential -ProfileName aws_s3_windows;
+# Set-DefaultAWSRegion -Region us-west-2;
 
-# Upload Tar Ball to dcos.download.io
-Write-S3Object -BucketName "downloads.dcos.io" -Key "dcos\testing\$env:TEAMCITY_BRANCH\windows\dcos_generate_config_win.sh" -File ".\dcos_generate_config_win.sh" -CannedACLName public-read;
-# Verify that the files were uploaded
-Get-S3BucketWebsite -BucketName "downloads.dcos.io";
+# # Upload Tar Ball to dcos.download.io
+# Write-S3Object -BucketName "downloads.dcos.io" -Key "dcos\testing\$env:TEAMCITY_BRANCH\windows\dcos_generate_config_win.sh" -File ".\dcos_generate_config_win.sh" -CannedACLName public-read;
+# # Verify that the files were uploaded
+# Get-S3BucketWebsite -BucketName "downloads.dcos.io";
