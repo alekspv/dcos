@@ -395,7 +395,7 @@ class InstallationStorage:
             self.tmp_dpath.joinpath(pkg_id.pkg_id).with_suffix('.tar.xz')
         )
         try:
-            cm_utl.unpack(str(pkgtarball_fpath), self.pkgrepo_dpath)
+            cm_utl.unpack(str(pkgtarball_fpath), str(self.pkgrepo_dpath.joinpath(pkg_id.pkg_name)))
             LOG.debug(f'{msg_src}: Add package: Extract: {pkg_id}')
         except Exception as e:
             raise cr_exc.RCExtractError(
