@@ -160,12 +160,14 @@ function ExtractTarXz($infile, $outdir){
     if (-not (test-path "$env:ProgramFiles\7-Zip\7z.exe")) {
         throw "$env:ProgramFiles\7-Zip\7z.exe needed"
     }
-    Set-Alias sz "$env:ProgramFiles\7-Zip\7z.exe"
+    $sz = "$env:ProgramFiles\7-Zip\7z.exe"
     $Source = $infile
     $Target = $outdir
     Write-Log("Extracting $Source to $Target")
     $start_time = Get-Date
-    & cmd.exe "/C 7z x $Source -so | 7z x -aoa -si -ttar -o$Target"
+    $exec = ("`"{0}`" x `"{1}`" -so | `"{2}`" x -aoa -si -ttar -o`"{3}`"" -f $sz, $Source, $sz, $Target)
+    Write-Log("Running: cmd /c $exec")
+    & cmd /C $exec
     Write-Log("Extract complete. Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)")
 }
 
@@ -235,7 +237,7 @@ function main($url, $version, $masters) {
     Write-Log("Installing Winpanda from Bootstrap agent - $($winpanda_package).tar.xz ...")
     Download "$url/$version/genconf_win/serve/packages/winpanda/$($winpanda_package).tar.xz" "winpanda.tar.xz"
     $winpandatarfile = "$($basedir)\bootstrap\winpanda.tar.xz"
-    ExtractTarXz $winpandatarfile "C:\winpanda"
+    ExtractTarXz $winpandatarfile "C:\"
 
     # Fill up Ansible inventory content to cluster.conf
     Write-Log("MASTERS: $($masters)")
