@@ -3,7 +3,7 @@ package:
     content: |
       {
         "environment": {
-          "MESOS_IP_DISCOVERY_COMMAND": "c:\\opt\mesosphere\\bin\\detect_ip.ps1",
+          "MESOS_IP_DISCOVERY_COMMAND": "c:\\opt\\mesosphere\\bin\\detect_ip.ps1",
           "PROVIDER": "{{ provider }}"
         }
       }
